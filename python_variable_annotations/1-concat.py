@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-defain function add
+defain function concat
 """
 
 

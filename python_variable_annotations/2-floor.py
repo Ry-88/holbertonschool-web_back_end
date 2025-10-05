@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
+"""Write a type-annotated function floor"""
 import math
-"""
-defain function add
-"""
 
 
 def floor(n: float) -> int:
