@@ -1,24 +1,35 @@
 #!/usr/bin/env python3
-"""script that provides some stats about Nginx logs stored in MongoDB"""
-
+"""
+Script to provide stats about Nginx logs stored in MongoDB.
+Database: logs
+Collection: nginx
+"""
 
 from pymongo import MongoClient
 
+def main():
+    """Main function to display Nginx logs stats."""
+    # Connect to MongoDB (default localhost:27017)
+    client = MongoClient("mongodb://localhost:27017/")
 
-if __name__ == "__main__":
-    """provide stats about nginx logs"""
-    client = MongoClient('mongodb://127.0.0.1:27017')
-    db = client['logs']
-    collection = db['nginx']
+    # Access database and collection
+    db = client.logs
+    collection = db.nginx
+
+    # Total number of logs
+    total_logs = collection.count_documents({})
+    print(f"{total_logs} logs")
+
+    # Methods to check
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
-
-    print(f"{collection.count_documents({})} logs")
     print("Methods:")
     for method in methods:
         count = collection.count_documents({"method": method})
-        print(f"\tmethod {method}: {count}")
+        print(f"\tmethod={method} count={count}")
 
-    print(collection.count_documents({"method": "GET", "path": "/status"}),
-          "status check")
+    # Logs with method=GET and path=/status
+    status_count = collection.count_documents({"method": "GET", "path": "/status"})
+    print(f"{status_count} status check")
 
-    client.close()
+if __name__ == "__main__":
+    main()
