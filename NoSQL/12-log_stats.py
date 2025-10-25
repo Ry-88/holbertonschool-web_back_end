@@ -7,6 +7,7 @@ Collection: nginx
 
 from pymongo import MongoClient
 
+
 def main():
     """Main function to display Nginx logs stats."""
     # Connect to MongoDB (default localhost:27017)
@@ -28,8 +29,10 @@ def main():
         print(f"\tmethod={method} count={count}")
 
     # Logs with method=GET and path=/status
-    status_count = collection.count_documents({"method": "GET", "path": "/status"})
+    status_count = collection.count_documents(
+        {"method": "GET", "path": "/status"})
     print(f"{status_count} status check")
+
 
 if __name__ == "__main__":
     main()
