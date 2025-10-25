@@ -1,14 +1,2 @@
-// 0-list_databases
-// Lists all databases in MongoDB
-
-// Switch to the admin database
-use admin;
-
-// Run the listDatabases command
-var result = db.adminCommand({ listDatabases: 1 });
-
-// Print all database names
-print("Databases:");
-result.databases.forEach(function(database) {
-    print("- " + database.name);
-});
+// a script that lists all databases in MongoDB
+show databases
