@@ -1,16 +1,24 @@
 #!/usr/bin/env python3
-"""Asynchronous generator module."""
+"""Module that contains an asynchronous generator coroutine.
+
+This module defines a coroutine that yields random numbers
+asynchronously, demonstrating how to use async generators
+in Python for concurrent operations.
+"""
 
 import asyncio
 import random
+from typing import AsyncGenerator
 
 
-async def async_generator():
+async def async_generator() -> AsyncGenerator[float, None]:
     """
-    Asynchronously yield random numbers.
+    Asynchronously yield random float numbers between 0 and 10.
 
     This coroutine loops 10 times, each time asynchronously waiting
-    for 1 second before yielding a random float between 0 and 10.
+    for 1 second before yielding a random float number between 0 and 10.
+    Yields:
+        float: A random number between 0 and 10.
     """
     for _ in range(10):
         await asyncio.sleep(1)
