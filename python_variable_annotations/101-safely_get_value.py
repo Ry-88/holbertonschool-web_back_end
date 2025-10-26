@@ -2,7 +2,7 @@
 """Module that defines a function to safely
 retrieve a value from a dictionary."""
 
-from typing import TypeVar, Mapping, Any, Optional
+from typing import Mapping, TypeVar, Any, Union
 
 T = TypeVar('T')
 
@@ -10,22 +10,21 @@ T = TypeVar('T')
 def safely_get_value(
     dct: Mapping[Any, T],
     key: Any,
-    default: Optional[T] = None
-) -> Optional[T]:
+    default: Union[T, None] = None
+) -> Union[T, None]:
     """
     Safely retrieve a value from a dictionary.
 
     Args:
-        dct (Mapping[Any, T]): The dictionary
-        or mapping to retrieve the value from.
-        key (Any): The key to look up in the dictionary.
-        default (Optional[T], optional): The value to
-        return if the key is not found.
-        Defaults to None.
+        dct (Mapping[Any, T]): The dictionary to get the value from.
+        key (Any): The key to search for.
+        default (Union[T, None], optional): The default
+        value to return if the key
+            does not exist. Defaults to None.
 
     Returns:
-        Optional[T]: The value associated with the key
-        if found, otherwise the default.
+        Union[T, None]: The value associated with the key if it exists,
+        otherwise the default.
     """
     if key in dct:
         return dct[key]
