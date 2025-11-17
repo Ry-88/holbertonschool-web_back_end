@@ -2,40 +2,33 @@ const fs = require('fs');
 
 function countStudents(path) {
   try {
-    // Read file synchronously
-    const data = fs.readFileSync(path, { encoding: 'utf-8' });
-    const lines = data.split('\n').filter((line) => line.trim() !== '');
+    const data = fs.readFileSync(path, 'utf-8');
+    const lines = data.split('\n').filter((line) => line.trim() !== ''); // Remove empty lines
 
-    // Remove header
-    const students = lines.slice(1);
-
-    if (students.length === 0) {
-      console.log('Number of students: 0');
-      return;
+    if (lines.length === 0) {
+      throw new Error('Cannot load the database');
     }
+
+    const students = lines.slice(1); // Skip the header line
+    const fields = {};
+
+    students.forEach((student) => {
+      const details = student.split(',').map((item) => item.trim()); // Trim whitespace from each field
+      if (details.length >= 4) { // Ensure valid student entry
+        const field = details[3]; // The field of study is the 4th column
+        const firstName = details[0]; // First name is the 1st column
+
+        if (!fields[field]) {
+          fields[field] = [];
+        }
+        fields[field].push(firstName);
+      }
+    });
 
     console.log(`Number of students: ${students.length}`);
 
-    // Object to store field groups
-    const fields = {};
-
-    for (const line of students) {
-      const parts = line.split(',');
-
-      if (parts.length >= 4) {
-        const firstname = parts[0];
-        const field = parts[3];
-
-        if (!fields[field]) fields[field] = [];
-        fields[field].push(firstname);
-      }
-    }
-
-    // Log results per field
-    for (const [field, list] of Object.entries(fields)) {
-      console.log(
-        `Number of students in ${field}: ${list.length}. List: ${list.join(', ')}`
-      );
+    for (const [field, firstNames] of Object.entries(fields)) {
+      console.log(`Number of students in ${field}: ${firstNames.length}. List: ${firstNames.join(', ')}`);
     }
   } catch (err) {
     throw new Error('Cannot load the database');
